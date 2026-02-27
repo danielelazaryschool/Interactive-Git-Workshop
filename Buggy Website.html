@@ -1,47 +1,209 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>CS Club Demo Site</title>
-    <link rel="stylesheet" href="styles.css"> <!-- BUG: wrong filename -->
-</head>
+<!-- 🌊 REALISTIC AQUARIUM ZONE -->
+<div class="ocean">
 
-<body>
+    <!-- Real fish images -->
+    <img class="fish fish1" src="https://upload.wikimedia.org/wikipedia/commons/1/18/Amphiprion_ocellaris_%28Clown_anemonefish%29.jpg">
+    <img class="fish fish2" src="https://upload.wikimedia.org/wikipedia/commons/5/56/Paracanthurus_hepatus_%28Paletten-Doktorfisch%29.jpg">
 
-    <h1>Welcome to the CS Club Website<h1> <!-- BUG: missing closing tag -->
+    <div class="animation-container">
 
-    <nav>
-        <ul>
-            <li><a href="#about">About</a>
-            <li><a href="#projects">Projects</a>
-            <li><a href="#contact">Contact</a>
-        </ul>
-    </nav>
+        <!-- 💗 PINK EATING STAR -->
+        <div class="star pink-star" id="bigStar">
+            <div class="face">
+                <div class="eyes-row">
+                    <div class="eye realistic-eye"></div>
+                    <div class="eye realistic-eye"></div>
+                </div>
+                <div class="mouth" id="mouth">
+                    <div class="teeth"></div>
+                </div>
+            </div>
+        </div>
 
-    <section id="about">
-        <h2>About Us</h2>
-        <p>We love programming and building cool stuff.
-    </section> <!-- BUG: unclosed <p> -->
+        <!-- 💚 GREEN STAR -->
+        <div class="star green-star" id="smallStar">
+            <div class="face">
+                <div class="eyes-row">
+                    <div class="eye realistic-eye"></div>
+                    <div class="eye realistic-eye"></div>
+                </div>
+            </div>
+        </div>
 
-    <section id="projects">
-        <h2>Projects</h2>
-        <button onclick="showProjects()">Show Projects</button>
-        <ul id="project-list">
-            <li>Website Builder
-            <li>Game Engine
-            <li>Robot Controller
-        </ul>
-    </section>
+    </div>
 
-    <section id="contact">
-        <h2>Contact</h2>
-        <form>
-            <input type="text" placeholder="Your name">
-            <input type="email" placeholder="Your email">
-            <button>Submit</button>
-        </form>
-    </section>
+    <button onclick="eatStar()">FEED THE STAR</button>
 
-    <script src="script.js"></script>
+    <audio id="chompSound">
+        <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_2b1c2b1f8f.mp3?filename=cartoon-bite-110634.mp3" type="audio/mpeg">
+    </audio>
 
-</body>
-</html>
+</div>
+
+<style>
+/* 🌊 Realistic ocean background */
+.ocean {
+    position: relative;
+    height: 800px;
+    background: linear-gradient(to bottom, #5fd0ff 0%, #0077aa 60%, #003f66 100%);
+    overflow: hidden;
+}
+
+/* Real moving fish */
+.fish {
+    position: absolute;
+    width: 300px;
+    border-radius: 20px;
+    animation: swim 25s linear infinite;
+    filter: drop-shadow(0 20px 20px rgba(0,0,0,0.4));
+}
+
+.fish1 { top: 150px; left: -400px; }
+.fish2 { top: 450px; left: -500px; animation-duration: 35s; }
+
+@keyframes swim {
+    from { transform: translateX(0); }
+    to { transform: translateX(140vw); }
+}
+
+/* ⭐ Stars 2x Bigger */
+.star {
+    position: absolute;
+    width: 480px;
+    height: 480px;
+    clip-path: polygon(
+        50% 5%, 63% 30%, 95% 40%,
+        70% 60%, 80% 90%,
+        50% 75%, 20% 90%,
+        30% 60%, 5% 40%,
+        37% 30%
+    );
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 1s ease-in-out, opacity 0.5s;
+}
+
+/* Pink Eater */
+.pink-star {
+    background: radial-gradient(circle at 30% 30%, #ffd6f6, #ff69d2 60%, #ff0099);
+    left: 20%;
+    top: 200px;
+    z-index: 2;
+}
+
+/* Green Star */
+.green-star {
+    background: radial-gradient(circle at 30% 30%, #d8ffcc, #33ff88 60%, #00aa44);
+    left: 55%;
+    top: 250px;
+    z-index: 1;
+}
+
+/* 👀 Proper LEFT-RIGHT eye alignment */
+.eyes-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.realistic-eye {
+    width: 120px;
+    height: 150px;
+    margin: 0 30px;
+    background: radial-gradient(circle at 40% 40%, white 10%, black 40%, black 100%);
+    border-radius: 50%;
+}
+
+/* 🦷 Realistic mouth */
+.mouth {
+    width: 150px;
+    height: 80px;
+    background: #300;
+    border-radius: 0 0 120px 120px;
+    margin-top: 40px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.mouth.open {
+    width: 280px;
+    height: 220px;
+}
+
+.teeth {
+    width: 100%;
+    height: 60px;
+    background: repeating-linear-gradient(
+        to right,
+        white 0px,
+        white 25px,
+        transparent 25px,
+        transparent 50px
+    );
+}
+
+/* Devour motion */
+.devour {
+    transform: translateX(300px) scale(1.1);
+}
+
+/* 💥 Emoticon explosion */
+.emote {
+    position: absolute;
+    font-size: 50px;
+    animation: explode 1.3s ease-out forwards;
+}
+
+@keyframes explode {
+    0% { opacity: 1; transform: scale(0.5); }
+    100% {
+        opacity: 0;
+        transform: translate(var(--x), var(--y)) rotate(720deg) scale(2.5);
+    }
+}
+</style>
+
+<script>
+function eatStar() {
+    const bigStar = document.getElementById("bigStar");
+    const smallStar = document.getElementById("smallStar");
+    const mouth = document.getElementById("mouth");
+    const sound = document.getElementById("chompSound");
+
+    mouth.classList.add("open");
+
+    setTimeout(() => {
+        bigStar.classList.add("devour");
+        sound.currentTime = 0;
+        sound.play();
+    }, 200);
+
+    setTimeout(() => {
+        smallStar.style.opacity = "0";
+    }, 900);
+
+    setTimeout(() => {
+        explodeEmotes();
+    }, 1300);
+}
+
+function explodeEmotes() {
+    const container = document.querySelector(".ocean");
+    const emoticons = ["💥","😵","✨","(╯°□°）╯","😋","🌊","🔥","🤯","💫","NOOOO"];
+
+    for (let i = 0; i < 40; i++) {
+        const em = document.createElement("div");
+        em.classList.add("emote");
+        em.textContent = emoticons[Math.floor(Math.random()*emoticons.length)];
+
+        em.style.left = "50%";
+        em.style.top = "400px";
+        em.style.setProperty("--x", (Math.random()*800 - 400) + "px");
+        em.style.setProperty("--y", (Math.random()*500 - 250) + "px");
+
+        container.appendChild(em);
+        setTimeout(() => em.remove(), 1300);
+    }
+}
+</script>
